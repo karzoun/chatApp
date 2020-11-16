@@ -24,8 +24,16 @@ io.on("connection", (socket) => {
       text: `${user.name}, Welcome to the room ${user.room}`,
     });
 
+    socket.broadcast
+      .to(user.room)
+      .emit("message", { user: "admin", text: `${user.name}, has joined!` });
+
     socket.join(user.room);
+
+    callback();
   });
+
+  socket.on("sendMessage");
 
   socket.on("disconnect", () => {
     console.log("User had left");
